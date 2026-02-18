@@ -11,7 +11,7 @@ define(['questAPI'], function(Quest){
         decline: true,
         declineText: isTouch ? 'Decline' : 'Decline to Answer', 
         autoFocus:true, 
-        progressBar:  'Page <%= pagesMeta.number %> out of 3'
+        progressBar:  'Page <%= pagesMeta.number %> out of 4'
     });
 	
     /**
@@ -39,6 +39,12 @@ define(['questAPI'], function(Quest){
     API.addQuestionsSet('basicDropdown',{
         inherit :'basicQ',
         type : 'dropdown',
+        autoSubmit:false
+    });
+
+	API.addQuestionsSet('basicText',{
+        inherit :'basicQ',
+        type : 'text',
         autoSubmit:false
     });
 	
@@ -90,6 +96,30 @@ define(['questAPI'], function(Quest){
         stem: 'How warm or cold do you feel towards <b><%= global.whiteLabels %></b>?'
     });
 
+	API.addQuestionsSet('age',{
+        inherit : 'basicText',
+        name: 'age',
+        stem: 'What is your age?'
+    });
+
+    API.addQuestionsSet('gender',{
+        inherit : 'basicDropdown',
+        name: 'gender',
+        stem: 'Gender',
+        answers: [
+            {text:'Female', value:'F'},
+            {text:'Male', value:'M'},
+            {text:'Non-binary', value:'NB'},
+            {text:'Prefer not to say', value:'NA'}
+        ]
+    });
+
+    API.addQuestionsSet('major',{
+        inherit : 'basicText',
+        name: 'major',
+        stem: 'What is your major?'
+    });
+	
     API.addSequence([
         {
             mixer : 'random', 
@@ -112,6 +142,14 @@ define(['questAPI'], function(Quest){
                     inherit:'basicPage', 
                     questions: {inherit:'attributes7'}
                 }
+            ]
+		},
+        {
+            inherit:'basicPage',
+            questions: [
+                {inherit:'age'},
+                {inherit:'gender'},
+                {inherit:'major'}
             ]
         }
     ]);
