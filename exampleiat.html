@@ -29,8 +29,17 @@
 				// Append the container to the body
 				document.body.appendChild(container);
                 
-                // Run your study (just set the correct URL)
-                minnoJS(canvas, 'mgr.js');
+                // 先加载 demographics.js
+				var demoScript = document.createElement('script');
+				demoScript.src = 'demographics.js';
+				demoScript.onload = function(){
+   				 // demographics 加载完后再启动 mgr
+ 				minnoJS(canvas, 'mgr.js');
+				};
+				document.head.appendChild(demoScript);
+
+				// Run your study (just set the correct URL)
+                //minnoJS(canvas, 'mgr.js');
                 
                 // We need to wait a few miliseconds for Qualtrics to register the value that we entered
                 minnoJS.onEnd = function () { setTimeout(proceed, 100); }
